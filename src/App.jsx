@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import {toast} from "sonner";
-
+import { toast } from "sonner";
+import { parseHexFloat, parseBinFloat } from './Functions'
 
 function App() {
   const [inputType, setInputType] = useState("binary")//User Input Type
@@ -11,10 +11,10 @@ function App() {
   const [output, setOutput] = useState("")//output
 
   //Allows the user to switch types from Binary to Hex and vice-versa
-  function changeType(type){
+  function changeType(type) {
     setInputType(type)
     setOutput("")
-    if (type == "hex"){
+    if (type == "hex") {
       setSign("")
       setExponent("")
       setMantissa("")
@@ -22,7 +22,7 @@ function App() {
     else {
       setHexInput("")
     }
-}
+  }
 
   //Checks whether the input is valid binary
   function isValidBinary(sign, exponent, mantissa) {
@@ -42,17 +42,28 @@ function App() {
   }
 
   //Function to copy to clipboard
-  function copyToClipboard(){
+  function copyToClipboard() {
     navigator.clipboard.writeText(output)
   }
 
   //Used for submitting the inputs, temporarily for checking whether the inputs are valid
   function handleSubmit() {
-    if (inputType === "hex") {
+    /*if (inputType === "hex") {
       setOutput(isValidHex(hexInput) ? "Valid hex input" : "Invalid hex input");
     } else {
       setOutput(isValidBinary(sign, exponent, mantissa) ? "Valid binary input" : "Invalid binary input");
+    }*/
+
+    if (inputType === "hex" && isValidHex(hexInput)) {
+      setOutput(parseHexFloat(hexInput))
+    } else if (inputType === "binary" && isValidBinary(sign, exponent, mantissa)) {
+      setOutput(parseBinFloat(sign, exponent, mantissa))
+    } else {
+      setOutput("Invalid input.")
     }
+
+    copyToClipboard()
+
     toast('Output: ' + output + ' has been copied to clipboard.', {
       closeButton: {
       },
@@ -76,12 +87,12 @@ function App() {
             {/* input buttons */}
             <div className="my-2 flex flex-row gap-2">
               <div
-                  className={`w-fit h-8 px-4 text-lg rounded-full border-green-500 border 2 cursor-pointer ${inputType == "binary" ? "bg-green-500 text-white" : ""}`}
-                  onClick={() => changeType("binary")}>Binary
+                className={`w-fit h-8 px-4 text-lg rounded-full border-green-500 border 2 cursor-pointer ${inputType == "binary" ? "bg-green-500 text-white" : ""}`}
+                onClick={() => changeType("binary")}>Binary
               </div>
               <div
-                  className={`w-fit h-8 px-4 text-lg rounded-full border-green-500 border-2 cursor-pointer ${inputType == "hex" ? "bg-green-500 text-white" : ""}`}
-                  onClick={() => changeType("hex")}>Hex
+                className={`w-fit h-8 px-4 text-lg rounded-full border-green-500 border-2 cursor-pointer ${inputType == "hex" ? "bg-green-500 text-white" : ""}`}
+                onClick={() => changeType("hex")}>Hex
               </div>
             </div>
             <form className="my-2" onSubmit={(e) => {
@@ -90,39 +101,39 @@ function App() {
             }}>
               {
                 inputType == "hex"
-                    ?
-                    <input
-                        className="border-2 border-black/50 outline-none w-full text-lg px-2"
-                        maxLength={8}
-                        placeholder='Input a hex value... (ex. 7ADF)'
-                        value={hexInput}
-                        onChange={(e) => setHexInput(e.target.value)}
-                    />
+                  ?
+                  <input
+                    className="border-2 border-black/50 outline-none w-full text-lg px-2"
+                    maxLength={8}
+                    placeholder='Input a hex value... (ex. 7ADF)'
+                    value={hexInput}
+                    onChange={(e) => setHexInput(e.target.value)}
+                  />
 
-                    :
-                    <div className="flex flex-row gap-2">
-                      <input
-                          className="border-2 border-black/50 outline-none w-16 text-lg px-2 h-8"
-                          maxLength={1}
-                          placeholder='Sign'
-                          value={sign}
-                          onChange={(e) => setSign(e.target.value)}
-                      />
-                      <input
-                          className="border-2 border-black/50 outline-none w-48 text-lg px-2 h-8"
-                          maxLength={8}
-                          placeholder='Exponent'
-                          value={exponent}
-                          onChange={(e) => setExponent(e.target.value)}
-                      />
-                      <input
-                          className="border-2 border-black/50 outline-none w-full text-lg px-2 h-8"
-                          maxLength={23}
-                          placeholder='Mantissa'
-                          value={mantissa}
-                          onChange={(e) => setMantissa(e.target.value)}
-                      />
-                    </div>
+                  :
+                  <div className="flex flex-row gap-2">
+                    <input
+                      className="border-2 border-black/50 outline-none w-16 text-lg px-2 h-8"
+                      maxLength={1}
+                      placeholder='Sign'
+                      value={sign}
+                      onChange={(e) => setSign(e.target.value)}
+                    />
+                    <input
+                      className="border-2 border-black/50 outline-none w-48 text-lg px-2 h-8"
+                      maxLength={8}
+                      placeholder='Exponent'
+                      value={exponent}
+                      onChange={(e) => setExponent(e.target.value)}
+                    />
+                    <input
+                      className="border-2 border-black/50 outline-none w-full text-lg px-2 h-8"
+                      maxLength={23}
+                      placeholder='Mantissa'
+                      value={mantissa}
+                      onChange={(e) => setMantissa(e.target.value)}
+                    />
+                  </div>
 
               }
             </form>
@@ -130,17 +141,17 @@ function App() {
 
           {/* Submit */}
           <div className='flex flex-row'>
-            <div className ='font-bold mr-2'>Submit:</div>
+            <div className='font-bold mr-2'>Submit:</div>
             {/* Fixed point submission */}
             <div
-                className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
-                onClick={handleSubmit}
+              className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
+              onClick={handleSubmit}
             >Fixed Point
             </div>
             {/* With decimal submission */}
             <div
-                className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
-                onClick={handleSubmit}
+              className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
+              onClick={handleSubmit}
             >With Decimal
             </div>
           </div>
