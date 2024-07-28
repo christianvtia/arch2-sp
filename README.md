@@ -6,25 +6,25 @@ This project takes an 8-digit hexadecimal or 32-bit binary input and converts it
 
 Test Cases:
 - Binary to Fixed Point
-![Binary to Fixed Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/bin-to-fixed.png)
+![Binary to Fixed Point Screenshot](test-cases/bin-to-fixed.png)
 - Binary to Floating Point
-![Binary to Floating Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/bin-to-float.png)
+![Binary to Floating Point Screenshot](test-cases/bin-to-float.png)
 - Hexadecimal to Fixed Point
-![Hexadecimal to Fixed Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/hex-to-fixed.png)
+![Hexadecimal to Fixed Point Screenshot](test-cases/hex-to-fixed.png)
 - Hexadecimal to Floating Point
-![Hexadecimal to Floating Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/hex-to-float.png)
+![Hexadecimal to Floating Point Screenshot](test-cases/hex-to-float.png)
 - 0
-![0 Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/0.png)
+![0 Screenshot](test-cases/0.png)
 - -0
-![Negative 0 Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/neg-0.png)
+![Negative 0 Screenshot](test-cases/neg-0.png)
 - Infinity
-![Infinity Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/inf.png)
+![Infinity Screenshot](test-cases/inf.png)
 - Negative Infinity
-![Negative Infinity Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/neg-inf.png)
+![Negative Infinity Screenshot](test-cases/neg-inf.png)
 - NaN (Not a Number)
-![NaN Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/nan.png)
+![NaN Screenshot](test-cases/nan.png)
 - Denormalized
-![Denormalized Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/denormalized.png)
+![Denormalized Screenshot](test-cases/denormalized.png)
 
 [Access the demonstration video here.](https://youtu.be/BXOSGPJJCwU)
 
