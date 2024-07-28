@@ -5,25 +5,26 @@ Developed by: Derek Royce Burias, Khryssha Claire Damuy, Christian Tia, and Jan 
 This project takes an 8-digit hexadecimal or 32-bit binary input and converts it to its corresponding fixed or floating point decimal number. Special cases are included such as 0, -0, infinity, negative infinity, NaN, and denormalized inputs. This translator does not account for error due to conversion.
 
 Test Cases:
-Binary to Fixed Point
-
-Binary to Floating Point
-
-Hexadecimal to Fixed Point
-
-Hexadecimal to Floating Point
-
-0
-
--0
-
-Infinity
-
-Negative Infinity
-
-NaN (Not a Number)
-
-Denormalized
+- Binary to Fixed Point
+![Binary to Fixed Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/bin-to-fixed.png)
+- Binary to Floating Point
+![Binary to Floating Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/bin-to-float.png)
+- Hexadecimal to Fixed Point
+![Hexadecimal to Fixed Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/hex-to-fixed.png)
+- Hexadecimal to Floating Point
+![Hexadecimal to Floating Point Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/hex-to-float.png)
+- 0
+![0 Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/0.png)
+- -0
+![Negative 0 Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/neg-0.png)
+- Infinity
+![Infinity Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/inf.png)
+- Negative Infinity
+![Negative Infinity Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/neg-inf.png)
+- NaN (Not a Number)
+![NaN Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/nan.png)
+- Denormalized
+![Denormalized Screenshot](https://github.com/christianvtia/arch2-sp/test-cases/denormalized.png)
 
 [Access the demonstration video here.](https://youtu.be/BXOSGPJJCwU)
 
