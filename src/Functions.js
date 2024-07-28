@@ -5,8 +5,8 @@ export function parseHexFloat(input) {
 
 export function parseBinFloat(sign, exp, mantissa) {
   exp = getExp(exp)
-  mantissa = binToDec(mantissa)
-  let mag = mantissa * 10**exp
+  mantissa = getMantissa(mantissa)
+  let mag = mantissa * 2**exp
   return sign === "0" ? mag : -mag
 }
 
@@ -55,8 +55,17 @@ function binToDec(bin) {
   return dec;
 }
 
+function getMantissa(bin) {
+  let mantissa = 1;
+  for (let i = 0; i < bin.length; i++)
+    mantissa += parseInt(bin[i]) * 2**(-1-i)
+
+  return mantissa;
+}
+
 function getExp(bin) {
   const bias = 127
   let exp = binToDec(bin)
   return exp - bias
 }
+
