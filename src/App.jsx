@@ -3,12 +3,12 @@ import { toast } from "sonner";
 import { parseHexFloat, parseBinFloatFixed, parseBinFloatFloating } from './Functions'
 
 function App() {
-  const [inputType, setInputType] = useState("binary")//User Input Type
-  const [sign, setSign] = useState("")//Sign bit for binary input
-  const [exponent, setExponent] = useState("")//Exponent bits for binary input
-  const [mantissa, setMantissa] = useState("")//Mantissa bits for binary input
-  const [hexInput, setHexInput] = useState("")//Hex input
-  const [output, setOutput] = useState("")//output
+  const [inputType, setInputType] = useState("binary")      //User Input Type
+  const [sign, setSign] = useState("")                      //Sign bit for binary input
+  const [exponent, setExponent] = useState("")              //Exponent bits for binary input
+  const [mantissa, setMantissa] = useState("")              //Mantissa bits for binary input
+  const [hexInput, setHexInput] = useState("")              //Hex input
+  const [output, setOutput] = useState("")                  //output
 
   //Allows the user to switch types from Binary to Hex and vice-versa
   function changeType(type) {
@@ -38,6 +38,7 @@ function App() {
     // Regular expression to check if the input is a valid 8-character hex
     const hexPattern = /^[0-9A-Fa-f]{8}$/;
 
+    // Validate
     return hexPattern.test(input);
   }
 
@@ -59,10 +60,10 @@ function App() {
     }
   }
 
-
+  //handles the submission of an input expecting a fixed point output
   function handleSubmitFixed() {
     if (inputType === "hex" && isValidHex(hexInput)) {
-      setOutput(parseHexFloat(hexInput, false))
+      setOutput(parseHexFloat(hexInput.toUpperCase(), false))
     } else if (inputType === "binary" && isValidBinary(sign, exponent, mantissa)) {
       setOutput(parseBinFloatFixed(sign, exponent, mantissa))
     } else {
@@ -70,9 +71,10 @@ function App() {
     }
   }
 
+  //handles the submission of an input expecting a floating point output
   function handleSubmitFloating() {
     if (inputType === "hex" && isValidHex(hexInput)) {
-      setOutput(parseHexFloat(hexInput, true))
+      setOutput(parseHexFloat(hexInput.toUpperCase(), true))
     } else if (inputType === "binary" && isValidBinary(sign, exponent, mantissa)) {
       setOutput(parseBinFloatFloating(sign, exponent, mantissa))
     } else {
@@ -105,17 +107,14 @@ function App() {
                 onClick={() => changeType("hex")}>Hex
               </div>
             </div>
-            <form className="my-2" onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}>
+            <div className="my-2">
               {
                 inputType == "hex"
                   ?
                   <input
                     className="border-2 border-black/50 outline-none w-full text-lg px-2"
                     maxLength={8}
-                    placeholder='Input a hex value... (ex. 7ADF)'
+                    placeholder='Input a hexadecimal value... (ex. 7ADF0000)'
                     value={hexInput}
                     onChange={(e) => setHexInput(e.target.value)}
                   />
@@ -146,7 +145,7 @@ function App() {
                   </div>
 
               }
-            </form>
+            </div>
           </div>
 
           {/* Submit */}
@@ -170,7 +169,8 @@ function App() {
           <div className='flex flex-col my-4'>
             <h1 className='text-lg'>Output:</h1>
             <div className="w-full border-2 border-black/50 h-8 mt-2">{output}</div>
-            <div className='w-full flex justify-end cursor-pointer' onClick={copyToClipboard}>
+            {/* Copy to clipboard button*/}
+            <div className='w-fit self-end flex justify-end cursor-pointer' onClick={copyToClipboard}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
               </svg>

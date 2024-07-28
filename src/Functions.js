@@ -1,28 +1,37 @@
+//main function for converting hex inputs to the desired output
 export function parseHexFloat(input, isFloating) {
-  let binFloat = hexToBin(input) 
-  if (isFloating) return parseBinFloatFloating(binFloat[0], binFloat[1], binFloat[2])
+  let binFloat = hexToBin(input)  //convert to binary 
+
+  //call the appropriate function based on the input type
+  if (isFloating) return parseBinFloatFloating(binFloat[0], binFloat[1], binFloat[2])     
   return parseBinFloatFixed(binFloat[0], binFloat[1], binFloat[2])
 }
 
+//function to parse binary output for fixed point output 
+//also helper function for the hex input to output function
 export function parseBinFloatFixed(sign, exp, mantissa) {
-  let specialCase = checkSpecialCases(sign, exp, mantissa)
+  let specialCase = checkSpecialCases(sign, exp, mantissa)      //check for special cases
   if (specialCase !== -1) return specialCase
 
-  exp = getExp(exp)
-  mantissa = getMantissa(mantissa)
-  let mag = mantissa * 2**exp
-  return sign === "0" ? mag : -mag
+  exp = getExp(exp)                       //convert the binary exponent with bias to actual decimal
+  mantissa = getMantissa(mantissa)        //convert the binary mantissa to decimal
+  let mag = mantissa * 2**exp             //calculate the magnitude of the fixed point by multiplying with the exponent
+  return sign === "0" ? mag : -mag        //check sign and return the final output
 }
 
+//function to parse binary output for floating point output 
+//also helper function for the hex input to output function
 export function parseBinFloatFloating(sign, exp, mantissa) {
-  let specialCase = checkSpecialCases(sign, exp, mantissa)
+  let specialCase = checkSpecialCases(sign, exp, mantissa)      //check for special cases
   if (specialCase !== -1) return specialCase
 
-  exp = getExp(exp)
-  mantissa = getMantissa(mantissa)
-  return sign === "0" ? mantissa+"*2^"+exp : -mantissa+"*2^"+exp
+  exp = getExp(exp)                       //convert the binary exponent with bias to actual decimal
+  mantissa = getMantissa(mantissa)        //convert the binary mantissa to decimal
+  return sign === "0" ? mantissa+"*2^"+exp : -mantissa+"*2^"+exp      //return the answer in floating point notation with appropriate sign
 }
 
+//helper function to check for special cases
+//since there are only a few special cases, this can be hardcoded
 function checkSpecialCases(sign, exp, mantissa) {
   if (exp === "11111111" && mantissa === "00000000000000000000000") {
     return sign === "0" ? "Infinity" : "Negative Infinity"
@@ -36,6 +45,7 @@ function checkSpecialCases(sign, exp, mantissa) {
   return -1
 }
 
+//helper function to convert hex digits to binary nibbles (4 bits)
 function hexToBinNibble(hex) {
   const lookupTable = {
     '0': '0000',
@@ -58,19 +68,23 @@ function hexToBinNibble(hex) {
   return lookupTable[hex.toUpperCase()] || null;
 }
 
+//helper function to convert hex input to binary
+//splits the binary into an array where the first element is the sign, 
+//the second is the exponent, and the last is the mantissa
 function hexToBin(hex) {
   let bin = "";
   for (let i = 0; i < hex.length; i++)
     bin = bin.concat(hexToBinNibble(hex[i]));
 
   let split_bin = []
-  split_bin.push(bin[0])          // Sign bit
-  split_bin.push(bin.slice(1,9))  // Exp
-  split_bin.push(bin.slice(9))    // Mantissa
+  split_bin.push(bin[0])          // sign bit
+  split_bin.push(bin.slice(1,9))  // exponent
+  split_bin.push(bin.slice(9))    // mantissa
 
   return split_bin;
 }
 
+//converts binary to decimal (for whole numbers, in this case, the exponent)
 function binToDec(bin) {
   let dec = 0;
   let power = 0;
@@ -81,6 +95,8 @@ function binToDec(bin) {
   return dec;
 }
 
+//converts the mantissa in binary to its corresponding fractional part
+//returns the fractional part + 1
 function getMantissa(bin) {
   let mantissa = 1;
   for (let i = 0; i < bin.length; i++)
@@ -89,6 +105,7 @@ function getMantissa(bin) {
   return mantissa;
 }
 
+//gets the actual exponent from the binary input given the bias
 function getExp(bin) {
   const bias = 127
   let exp = binToDec(bin)
