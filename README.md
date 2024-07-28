@@ -1,6 +1,6 @@
 # IEEE-754 Binary-32 floating point translator 
 
-This project takes an 8-digit hexadecimal or 32-bit binary input and converts it to its corresponding fixed or floating point decimal number. Special cases are included such as 0, -0, infinity, negative infinity, NaN, and denormalized inputs.
+This project takes an 8-digit hexadecimal or 32-bit binary input and converts it to its corresponding fixed or floating point decimal number. Special cases are included such as 0, -0, infinity, negative infinity, NaN, and denormalized inputs. This translator does not account for error due to conversion.
 
 //insert demonstration video
 
