@@ -1,13 +1,40 @@
-export function parseHexFloat(input) {
+export function parseHexFloat(input, isFloating) {
   let binFloat = hexToBin(input) 
-  return parseBinFloat(binFloat[0], binFloat[1], binFloat[2])
+  if (isFloating) return parseBinFloatFloating(binFloat[0], binFloat[1], binFloat[2])
+  return parseBinFloatFixed(binFloat[0], binFloat[1], binFloat[2])
 }
 
-export function parseBinFloat(sign, exp, mantissa) {
+export function parseBinFloatFixed(sign, exp, mantissa) {
+  let specialCase = checkSpecialCases(sign, exp, mantissa)
+  if (specialCase !== -1) return specialCase
+
   exp = getExp(exp)
   mantissa = getMantissa(mantissa)
   let mag = mantissa * 2**exp
   return sign === "0" ? mag : -mag
+}
+
+export function parseBinFloatFloating(sign, exp, mantissa) {
+  let specialCase = checkSpecialCases(sign, exp, mantissa)
+  if (specialCase !== -1) return specialCase
+  
+  exp = getExp(exp)
+  let frac = binToDecFraction(mantissa.toString())
+  if (frac==0) return sign === "0" ? "1.0*2^"+exp : "-1.0*2^"+exp
+  return sign === "0" ? 1+frac+"*2^"+exp : -1-frac+"*2^"+exp
+}
+
+function checkSpecialCases(sign, exp, mantissa) {
+  if (exp === "11111111" && mantissa === "00000000000000000000000") {
+    return sign === "0" ? "Infinity" : "Negative Infinity"
+  } else if (exp === "11111111" && mantissa !== "00000000000000000000000") {
+    return "NaN"
+  } else if (exp === "00000000" && mantissa === "00000000000000000000000") {
+    return sign === "0" ? "0" : "-0"
+  } else if (exp === "00000000" && mantissa !== "00000000000000000000000") {
+    return "Denormalized"
+  }
+  return -1
 }
 
 function hexToBinNibble(hex) {
@@ -53,6 +80,16 @@ function binToDec(bin) {
     power++;
   }
   return dec;
+}
+
+function binToDecFraction(bin) {
+  let fraction = 0;
+    for (let i = 0; i < bin.length; i++) {
+        if (bin[i] === '1') {
+          fraction += Math.pow(2, -(i + 1));
+        }
+    }
+  return fraction;
 }
 
 function getMantissa(bin) {

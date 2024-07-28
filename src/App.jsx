@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { toast } from "sonner";
-import { parseHexFloat, parseBinFloat } from './Functions'
+import { parseHexFloat, parseBinFloatFixed, parseBinFloatFloating } from './Functions'
 
 function App() {
   const [inputType, setInputType] = useState("binary")//User Input Type
@@ -45,24 +45,36 @@ function App() {
   function copyToClipboard() {
     navigator.clipboard.writeText(output)
 
-    toast('Output: ' + output + ' has been copied to clipboard.', {
-      closeButton: {
-      },
-    });
+    if (output == ""){
+      toast('Nothing to copy.', {
+        closeButton: {
+        },
+      });
+    }
+    else {
+      toast('Output: ' + output + ' has been copied to clipboard.', {
+        closeButton: {
+        },
+      });
+    }
   }
 
-  //Used for submitting the inputs, temporarily for checking whether the inputs are valid
-  function handleSubmit() {
-    /*if (inputType === "hex") {
-      setOutput(isValidHex(hexInput) ? "Valid hex input" : "Invalid hex input");
-    } else {
-      setOutput(isValidBinary(sign, exponent, mantissa) ? "Valid binary input" : "Invalid binary input");
-    }*/
 
+  function handleSubmitFixed() {
     if (inputType === "hex" && isValidHex(hexInput)) {
-      setOutput(parseHexFloat(hexInput))
+      setOutput(parseHexFloat(hexInput, false))
     } else if (inputType === "binary" && isValidBinary(sign, exponent, mantissa)) {
-      setOutput(parseBinFloat(sign, exponent, mantissa))
+      setOutput(parseBinFloatFixed(sign, exponent, mantissa))
+    } else {
+      setOutput("Invalid input.")
+    }
+  }
+
+  function handleSubmitFloating() {
+    if (inputType === "hex" && isValidHex(hexInput)) {
+      setOutput(parseHexFloat(hexInput, true))
+    } else if (inputType === "binary" && isValidBinary(sign, exponent, mantissa)) {
+      setOutput(parseBinFloatFloating(sign, exponent, mantissa))
     } else {
       setOutput("Invalid input.")
     }
@@ -143,14 +155,14 @@ function App() {
             {/* Fixed point submission */}
             <div
               className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
-              onClick={handleSubmit}
+              onClick={handleSubmitFixed}
             >Fixed Point
             </div>
             {/* With decimal submission */}
             <div
               className='w-fit h-8 px-4 text-lg rounded-full bg-sky-500 text-white font-semibold self-end border-2 cursor-pointer'
-              onClick={handleSubmit}
-            >With Decimal
+              onClick={handleSubmitFloating}
+            >Floating Point
             </div>
           </div>
 
