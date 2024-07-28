@@ -10,3 +10,4 @@ To run the code locally:
 - Clone the repository
 - Run ```npm i```
 - Run ```npm run dev```
+- Open in [localhost](http://localhost:5173/arch2-sp/)
