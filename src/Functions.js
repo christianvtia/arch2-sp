@@ -17,11 +17,10 @@ export function parseBinFloatFixed(sign, exp, mantissa) {
 export function parseBinFloatFloating(sign, exp, mantissa) {
   let specialCase = checkSpecialCases(sign, exp, mantissa)
   if (specialCase !== -1) return specialCase
-  
+
   exp = getExp(exp)
-  let frac = binToDecFraction(mantissa.toString())
-  if (frac==0) return sign === "0" ? "1.0*2^"+exp : "-1.0*2^"+exp
-  return sign === "0" ? 1+frac+"*2^"+exp : -1-frac+"*2^"+exp
+  mantissa = getMantissa(mantissa)
+  return sign === "0" ? mantissa+"*2^"+exp : -mantissa+"*2^"+exp
 }
 
 function checkSpecialCases(sign, exp, mantissa) {
@@ -82,16 +81,6 @@ function binToDec(bin) {
   return dec;
 }
 
-function binToDecFraction(bin) {
-  let fraction = 0;
-    for (let i = 0; i < bin.length; i++) {
-        if (bin[i] === '1') {
-          fraction += Math.pow(2, -(i + 1));
-        }
-    }
-  return fraction;
-}
-
 function getMantissa(bin) {
   let mantissa = 1;
   for (let i = 0; i < bin.length; i++)
@@ -105,4 +94,3 @@ function getExp(bin) {
   let exp = binToDec(bin)
   return exp - bias
 }
-
