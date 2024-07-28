@@ -30,7 +30,7 @@ function App() {
     const binaryPattern = /^[01]+$/;
 
     // Validate each parameter
-    return binaryPattern.test(sign) && binaryPattern.test(exponent) && binaryPattern.test(mantissa);
+    return binaryPattern.test(sign) && binaryPattern.test(exponent) && binaryPattern.test(mantissa) && exponent.length == 8 && mantissa.length == 23;
   }
 
   //Checks whether the input is valid hex
