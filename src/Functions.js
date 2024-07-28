@@ -2,7 +2,7 @@
 export function parseHexFloat(input, isFloating) {
   let binFloat = hexToBin(input)  //convert to binary 
 
-  //call the appropriate function based on the input type
+  //call the appropriate function based on the output type
   if (isFloating) return parseBinFloatFloating(binFloat[0], binFloat[1], binFloat[2])     
   return parseBinFloatFixed(binFloat[0], binFloat[1], binFloat[2])
 }
