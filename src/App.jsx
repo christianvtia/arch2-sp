@@ -114,7 +114,7 @@ function App() {
                   <input
                     className="border-2 border-black/50 outline-none w-full text-lg px-2"
                     maxLength={8}
-                    placeholder='Input a hexadecimal value... (ex. 7ADF0000)'
+                    placeholder='Input a hexadecimal value... (ex. BCD00000)'
                     value={hexInput}
                     onChange={(e) => setHexInput(e.target.value)}
                   />

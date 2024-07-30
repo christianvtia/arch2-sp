@@ -19,26 +19,24 @@ export function parseBinFloatFixed(sign, exp, mantissa) {
   return sign === "0" ? mag : -mag        //check sign and return the final output
 }
 
-//function to parse binary output for floating point output 
+//function to pass the answer in floating point output
 //also helper function for the hex input to output function
 export function parseBinFloatFloating(sign, exp, mantissa) {
-  let specialCase = checkSpecialCases(sign, exp, mantissa)      //check for special cases
-  if (specialCase !== -1) return specialCase
+  let ans = parseBinFloatFixed(sign, exp, mantissa).toExponential().toString();   //get the fixed point output and convert to exponential notation
+  ans = ans.replace("e", "*10^");                                                 //replace the 'e' with '*10^' for better readability for copy-pasting
 
-  exp = getExp(exp)                       //convert the binary exponent with bias to actual decimal
-  mantissa = getMantissa(mantissa)        //convert the binary mantissa to decimal
-  return sign === "0" ? mantissa+"*2^"+exp : -mantissa+"*2^"+exp      //return the answer in floating point notation with appropriate sign
+  return ans;
 }
 
 //helper function to check for special cases
 //since there are only a few special cases, this can be hardcoded
 function checkSpecialCases(sign, exp, mantissa) {
   if (exp === "11111111" && mantissa === "00000000000000000000000") {
-    return sign === "0" ? "Infinity" : "Negative Infinity"
+    return sign === "0" ? "Postitive Infinity" : "Negative Infinity"
   } else if (exp === "11111111" && mantissa !== "00000000000000000000000") {
     return "NaN"
   } else if (exp === "00000000" && mantissa === "00000000000000000000000") {
-    return sign === "0" ? "0" : "-0"
+    return sign === "0" ? "+0" : "-0"
   } else if (exp === "00000000" && mantissa !== "00000000000000000000000") {
     return "Denormalized"
   }
