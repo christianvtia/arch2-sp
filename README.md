@@ -13,11 +13,11 @@ Test Cases:
 ![Hexadecimal to Fixed Point Screenshot](test-cases/hex-to-fixed.png)
 - Hexadecimal to Floating Point
 ![Hexadecimal to Floating Point Screenshot](test-cases/hex-to-float.png)
-- 0
+- Positive 0
 ![0 Screenshot](test-cases/0.png)
-- -0
+- Negative 0
 ![Negative 0 Screenshot](test-cases/neg-0.png)
-- Infinity
+- Positive Infinity
 ![Infinity Screenshot](test-cases/inf.png)
 - Negative Infinity
 ![Negative Infinity Screenshot](test-cases/neg-inf.png)
@@ -31,6 +31,7 @@ Test Cases:
 Actual project can be accessed here [T3AY2324 Group 9 CSARCH2 Simulation Project](https://christianvtia.github.io/arch2-sp/).
 
 To run the code locally:
+- Have [Node.js](https://nodejs.org/en) installed
 - Clone the repository
 - Run ```npm i```
 - Run ```npm run dev```
